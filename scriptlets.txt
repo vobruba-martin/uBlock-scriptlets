@@ -1,36 +1,49 @@
 
 remove-frames-content.js application/javascript
 (function() {
+	var log = console.log.bind(console);
+	var url = 'unknown';
+	try {
+		url = window.location.href || url;
+	} catch (e) {};
 	function inIframe() {
 		try {
 			return window.self !== window.top;
 		} catch (e) {}
 		return true;
 	}
-	function doRemoval(async) {
-		var url = 'unknown';
-		var removedBody = false;
-		var removedHead = false;
+	function removeHead() {
 		try {
-			url = window.location.href || url;
-		} catch (e) {};
-		try {
-			document.body.parentNode.removeChild(document.body);
-			removedBody = true;
-		} catch (e) {};
-		try {
+			// This is sometimes causing 100% CPU usage.
 			//document.head.parentNode.removeChild(document.head);
 			document.head.innerHTML = '';
-			removedHead = true;
+			return true;
+		} catch (e) {}
+		return false;
+	}
+	function removeBody() {
+		try {
+			document.body.parentNode.removeChild(document.body);
+			return true;
 		} catch (e) {};
-		console.log('uBO> Removed frame contents. [ASYNC:%s] [HEAD:%s] [BODY:%s] [URL:%s]', async, removedHead, removedBody, url);
+		return false;
+	}
+	function logRemoval(type, async, result) {
+		log('uBO> Removed frame contents. ['+ type +':%s] [ASYNC:%s] [URL:%s]', async, result, url);
 	}
 	if (inIframe()) {
-		if (document.body && document.head) {
-			doRemoval(false);
+		if (document.head) {
+			logRemoval('HEAD', false, removeHead());
 		} else {
 			setTimeout(function() {
-				doRemoval(true);
+				logRemoval('HEAD', true, removeHead());
+			}, 0);
+		}
+		if (document.body) {
+			logRemoval('BODY', false, removeBody());
+		} else {
+			setTimeout(function() {
+				logRemoval('BODY', true, removeBody());
 			}, 0);
 		}
 	}
