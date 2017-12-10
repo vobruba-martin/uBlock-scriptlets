@@ -11,16 +11,18 @@ remove-frames-content.js application/javascript
 		var removedBody = false;
 		var removedHead = false;
 		try {
-			url = window.location.url;
-		} catch (e) {}
-		try {
-			document.body.parentNode.removeChild(document.body);
-			removedBody = true;
-		} catch (e) {}
-		try {
-			document.head.innerHTML='';
-			removedHead = true;
-		} catch (e) {}
-		console.warn('uBO> Removed frame [head:%s] [body:%s] [URL:%s]', removedHead, removedBody, url);
+			url = window.location.href;
+		} catch (e) {};
+		setTimeout(function() {
+			try {
+				document.body.parentNode.removeChild(document.body);
+				removedBody = true;
+			} catch (e) {};
+			try {
+				document.head.innerHTML='';
+				removedHead = true;
+			} catch (e) {};
+			console.warn('uBO> Removed frame [head:%s] [body:%s] [URL:%s]', removedHead, removedBody, url);
+		}, 0);
 	}
 })();
