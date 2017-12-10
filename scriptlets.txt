@@ -47,7 +47,6 @@ remove-frames-content.js application/javascript
 		}
 		if (document.body) {
 			removedBody.result = removeBody();
-			logRemoval('BODY', false, removeBody());
 		} else {
 			setTimeout(function() {
 				removedBody.async = true;
