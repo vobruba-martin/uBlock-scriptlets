@@ -7,8 +7,10 @@ remove-frames-content.js application/javascript
 		return true;
 	}
 	if (inIframe()) {
-		console.warn('uBO> Removing iframe contents...');
-		document.head.parentNode.removeChild(document.head);
-		document.body.parentNode.removeChild(document.body);
+		try {
+			document.head.parentNode.removeChild(document.head);
+			document.body.parentNode.removeChild(document.body);
+			console.warn('uBO> Removed iframe contents...');
+		} catch (e) {}
 	}
 })();
