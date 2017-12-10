@@ -6,10 +6,7 @@ remove-frames-content.js application/javascript
 		async: false,
 		result: false
 	};
-	var removedBody = {
-		async: false,
-		result: false
-	};
+	var removedBody = removedHead;
 	var url = 'unknown';
 	try {
 		url = window.location.href || url;
@@ -23,6 +20,7 @@ remove-frames-content.js application/javascript
 	function removeHead() {
 		try {
 			// This is sometimes causing 100% CPU usage.
+			// Using innerHTML fixes this issue.
 			//document.head.parentNode.removeChild(document.head);
 			document.head.innerHTML = '';
 			return true;
