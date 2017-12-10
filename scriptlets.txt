@@ -7,12 +7,20 @@ remove-frames-content.js application/javascript
 		return true;
 	}
 	if (inIframe()) {
+		var url = 'unknown';
+		var removedBody = false;
+		var removedHead = false;
 		try {
-			console.warn('uBO> Removing frame content...');
-			document.body.parentNode.removeChild(document.body);
-			//document.head.parentNode.removeChild(document.head);
-			document.head.innerHTML='';
-			console.warn('uBO> Done.');
+			url = window.location.url;
 		} catch (e) {}
+		try {
+			document.body.parentNode.removeChild(document.body);
+			removedBody = true;
+		} catch (e) {}
+		try {
+			document.head.innerHTML='';
+			removedHead = true;
+		} catch (e) {}
+		console.warn('uBO> Removed frame [head:%s] [body:%s] [URL:%s]', removedHead, removedBody, url);
 	}
 })();
