@@ -1,4 +1,4 @@
-
+# This removes BODY & HEAD elements if run inside framed content.
 remove-frames-content.js application/javascript
 (function() {
 	var log = console.log.bind(console);
@@ -20,7 +20,7 @@ remove-frames-content.js application/javascript
 	function removeHead() {
 		try {
 			// This is sometimes causing 100% CPU usage.
-			// Using innerHTML fixes this issue.
+			// Using innerHTML fixes this issue in Chrome.
 			//document.head.parentNode.removeChild(document.head);
 			document.head.innerHTML = '';
 			return true;
@@ -52,7 +52,7 @@ remove-frames-content.js application/javascript
 			}, 0);
 		}
 		setTimeout(function() {
-			log('uBO> Removed frame contents. [HEAD:%s] [BODY:%s] [URL:%s]',
+			log('uBO> Removed frame content [HEAD:%s] [BODY:%s] [URL:%s]',
 				removedHead.result + (removedHead.async ? ',async' : ''),
 				removedBody.result + (removedBody.async ? ',async' : ''),
 				url
