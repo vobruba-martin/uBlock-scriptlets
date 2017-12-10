@@ -19,10 +19,11 @@ remove-frames-content.js application/javascript
 			removedBody = true;
 		} catch (e) {};
 		try {
-			document.head.parentNode.removeChild(document.head);
+			//document.head.parentNode.removeChild(document.head);
+			document.head.innerHTML = '';
 			removedHead = true;
 		} catch (e) {};
-		console.log('uBO> Removed frame contents [ASYNC:%s] [HEAD:%s] [BODY:%s] [URL:%s]', async, removedHead, removedBody, url);
+		console.log('uBO> Removed frame contents. [ASYNC:%s] [HEAD:%s] [BODY:%s] [URL:%s]', async, removedHead, removedBody, url);
 	}
 	if (inIframe()) {
 		if (document.body && document.head) {
