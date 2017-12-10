@@ -29,7 +29,7 @@ remove-frames-content.js application/javascript
 		return false;
 	}
 	function logRemoval(type, async, result) {
-		log('uBO> Removed frame contents. ['+ type +':%s] [ASYNC:%s] [URL:%s]', async, result, url);
+		log('uBO> Removed frame contents. ['+ type +':%s] [ASYNC:%s] [URL:%s]', result, async, url);
 	}
 	if (inIframe()) {
 		if (document.head) {
