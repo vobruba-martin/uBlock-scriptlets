@@ -2,6 +2,14 @@
 remove-frames-content.js application/javascript
 (function() {
 	var log = console.log.bind(console);
+	var removedHead = {
+		async: false,
+		result: false
+	};
+	var removedBody = {
+		async: false,
+		result: false
+	};
 	var url = 'unknown';
 	try {
 		url = window.location.href || url;
@@ -9,7 +17,7 @@ remove-frames-content.js application/javascript
 	function inIframe() {
 		try {
 			return window.self !== window.top;
-		} catch (e) {}
+		} catch (e) {};
 		return true;
 	}
 	function removeHead() {
@@ -18,7 +26,7 @@ remove-frames-content.js application/javascript
 			//document.head.parentNode.removeChild(document.head);
 			document.head.innerHTML = '';
 			return true;
-		} catch (e) {}
+		} catch (e) {};
 		return false;
 	}
 	function removeBody() {
@@ -28,23 +36,30 @@ remove-frames-content.js application/javascript
 		} catch (e) {};
 		return false;
 	}
-	function logRemoval(type, async, result) {
-		log('uBO> Removed frame contents. ['+ type +':%s] [ASYNC:%s] [URL:%s]', result, async, url);
-	}
 	if (inIframe()) {
 		if (document.head) {
-			logRemoval('HEAD', false, removeHead());
+			removedHead.result = removeHead();
 		} else {
 			setTimeout(function() {
-				logRemoval('HEAD', true, removeHead());
+				removedHead.async = true;
+				removedHead.result = removeHead();
 			}, 0);
 		}
 		if (document.body) {
+			removedBody.result = removeBody();
 			logRemoval('BODY', false, removeBody());
 		} else {
 			setTimeout(function() {
-				logRemoval('BODY', true, removeBody());
+				removedBody.async = true;
+				removedBody.result = removeBody();
 			}, 0);
 		}
+		setTimeout(function() {
+			log('uBO> Removed frame contents. [HEAD:%s] [BODY:%s] [URL:%s]',
+				removedHead.result + (removedHead.async ? ',async' : ''),
+				removedBody.result + (removedBody.async ? ',async' : ''),
+				url
+			);
+		}, 10);
 	}
 })();
