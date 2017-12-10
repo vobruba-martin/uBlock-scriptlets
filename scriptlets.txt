@@ -6,7 +6,6 @@ remove-frames-content.js application/javascript
 		} catch (e) {}
 		return true;
 	}
-
 	if (inIframe()) {
 		console.warn('uBO> Removing iframe contents...');
 		document.head.parentNode.removeChild(document.head);
