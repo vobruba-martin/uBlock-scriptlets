@@ -11,7 +11,7 @@ remove-frames-content.js application/javascript
 		var removedBody = false;
 		var removedHead = false;
 		try {
-			url = window.location.href;
+			url = window.location.href || url;
 		} catch (e) {};
 		setTimeout(function() {
 			try {
@@ -22,7 +22,7 @@ remove-frames-content.js application/javascript
 				document.head.innerHTML='';
 				removedHead = true;
 			} catch (e) {};
-			console.warn('uBO> Removed frame [head:%s] [body:%s] [URL:%s]', removedHead, removedBody, url);
+			console.log('uBO> Removed frame [HEAD:%s] [BODY:%s] [URL:%s]', removedHead, removedBody, url);
 		}, 0);
 	}
 })();
