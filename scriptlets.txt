@@ -1,3 +1,4 @@
+
 remove-frames-content.js application/javascript
 (function() {
 	function inIframe() {
@@ -6,24 +7,30 @@ remove-frames-content.js application/javascript
 		} catch (e) {}
 		return true;
 	}
-	if (inIframe()) {
+	function doRemoval(async) {
 		var url = 'unknown';
 		var removedBody = false;
 		var removedHead = false;
 		try {
 			url = window.location.href || url;
 		} catch (e) {};
-		setTimeout(function() {
-			try {
-				document.body.parentNode.removeChild(document.body);
-				removedBody = true;
-			} catch (e) {};
-			try {
-				document.head.parentNode.removeChild(document.head);
-				//document.head.innerHTML='';
-				removedHead = true;
-			} catch (e) {};
-			console.log('uBO> Removed frame contents [HEAD:%s] [BODY:%s] [URL:%s]', removedHead, removedBody, url);
-		}, 0);
+		try {
+			document.body.parentNode.removeChild(document.body);
+			removedBody = true;
+		} catch (e) {};
+		try {
+			document.head.parentNode.removeChild(document.head);
+			removedHead = true;
+		} catch (e) {};
+		console.log('uBO> Removed frame contents [ASYNC:%s] [HEAD:%s] [BODY:%s] [URL:%s]', async, removedHead, removedBody, url);
+	}
+	if (inIframe()) {
+		if (document.body && document.head) {
+			doRemoval(false);
+		} else {
+			setTimeout(function() {
+				doRemoval(true);
+			}, 0);
+		}
 	}
 })();
