@@ -1,0 +1,15 @@
+remove-frames-content.js application/javascript
+(function() {
+	function inIframe() {
+		try {
+			return window.self !== window.top;
+		} catch (e) {}
+		return true;
+	}
+
+	if (inIframe()) {
+		console.warn('uBO> Removing iframe contents...');
+		document.head.parentNode.removeChild(document.head);
+		document.body.parentNode.removeChild(document.body);
+	}
+})();
